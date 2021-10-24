@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Call Firewall: Contacts</title>
+  <%- include('head.part'); %>
+</head>
+
+<body>
+
+  <script type="text/javascript">
+    function updateContact(id, nmbr, name) {
+      document.getElementById('uf_name').value = name;
+      document.getElementById('uf_nmbr').value = nmbr;
+      document.getElementById('id').value = id;
+      let contactModal = new bootstrap.Modal(document.getElementById('contactModal'), {});
+      contactModal.show();
+    }
+  </script>
+
+  <div class="container-lg">
+    <h2>Call Firewall: Contacts</h2>
+    <%- include('sitemap.part'); %>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <tr>
+            <th>Number</th>
+            <th>Name</th>
+            <th></th>
+            <th></th>
+          </tr>
+
+          <% if(blockData.length!=0){ var i=1; blockData.forEach(function(data){ %>
+            <tr>
+              <td>
+                <%=data.nmbr %>
+              </td>
+              <td>
+                <%=data.name %>
+              </td>
+              <td><a href="/callid/allow/delete/<%=data.ID%>" class="btn btn-danger btn-outline-dark btn-xs"
+                  role="button">X</a></td>
+              <td><button type="button" class="btn btn-info btn-outline-dark btn-xs"
+                  onclick="updateContact('<%= data.ID %>', '<%= data.nmbr %>', '<%= data.name %>');">Edit</button> </td>
+            </tr>
+            <% i++; }) %>
+              <% } else{ %>
+                <tr>
+                  <td colspan="4">No Data Found</td>
+                </tr>
+                <% } %>
+        </table>
+      </div>
+      <!-- Trigger the modal with a button -->
+      <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#myModal">Add
+        Entry</button>
+      <!-- Modal -->
+      <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+          <form name="addForm" role="form" action="/callid/allow/insert" method="POST">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Add Contact</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label>Number</label>
+                  <input type="text" class="form-control" name="nmbr" id="nmbr">
+                </div>
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" class="form-control" name="name" id="name">
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div id="contactModal" class="modal fade">
+        <div class="modal-dialog">
+          <form name="updateForm" role="form" action="/callid/allow/insert" method="POST">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Edit Contact</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <input type="hidden" class="form-control" name="id" id="id">
+                </div>
+                <div class="form-group">
+                  <label>Number</label>
+                  <input type="text" class="form-control" name="nmbr" id="uf_nmbr">
+                </div>
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" class="form-control" name="name" id="uf_name">
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+  </div>
+</body>
+
+</html>

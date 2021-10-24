@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>
+		<%= title %>
+	</title>
+	<script src='https://cdn.plot.ly/plotly-2.4.2.min.js'></script>
+	<%- include('head.part'); %>
+</head>
+
+<body>
+	<div class="container-lg">
+		<h2>
+			<%= title %>
+		</h2>
+		<%- include('sitemap.part'); %>
+		<p>Call Firewall is a Raspberry Pi project to manage calls on your landline phone service. </p>
+		<div id='graph'>
+			<!-- Plotly chart -->
+		</div>
+		<script>
+        	<%
+        		const x0 = []
+				const x5 = []
+				const x7 = []
+				const x9 = []
+				const y0 = []
+				const y5 = []
+				const y7 = []
+				const y9 = []
+				const t0 = []
+				const t5 = []
+				const t7 = []
+				const t9 = []
+				callData.forEach(function (data) {
+					switch (data.threat_level) {
+						case 0:
+							x0.push("'" + data.time_stamp.toISOString() + "'");
+							y0.push("'" + data.threat_level + "'");
+							t0.push("'" + data.name + "'");
+							break;
+						case 5:
+							x5.push("'" + data.time_stamp.toISOString() + "'");
+							y5.push("'" + data.threat_level + "'");
+							t5.push("'" + data.name + "'");
+							break;
+						case 7:
+							x7.push("'" + data.time_stamp.toISOString() + "'");
+							y7.push("'" + data.threat_level + "'");
+							t7.push("'" + data.name + "'");
+							break;
+						case 9:
+							x9.push("'" + data.time_stamp.toISOString() + "'");
+							y9.push("'" + data.threat_level + "'");
+							t9.push("'" + data.name + "'");
+							break;
+					}
+				})
+			%>
+			var data0 = {
+				x: [ <%-x0 %> ],
+				y: [ <%-y0 %> ],
+				mode: 'markers',
+				type: 'scatter',
+				text: [ <%-t0 %> ],
+				name: 'contact',
+				marker: {
+					size: 10,
+					line: {
+						color: "white",
+						width: 0.5
+					}
+				}
+			};
+			var data5 = {
+				x: [ <%-x5 %> ],
+				y: [ <%-y5 %> ],
+				mode: 'markers',
+				type: 'scatter',
+				text: [ <%-t5 %> ],
+				name: 'unknown-caller',
+				marker: {
+					size: 10,
+					line: {
+						color: "white",
+						width: 0.5
+					}
+				}
+			};
+			var data7 = {
+				x: [ <%-x7 %> ],
+				y: [ <%-y7 %> ],
+				mode: 'markers',
+				type: 'scatter',
+				text: [ <%-t7 %> ],
+				marker: {
+					size: 10,
+					line: {
+						color: "white",
+						width: 0.5
+					}
+				},
+				name: 'robo-caller'
+			};
+			var data9 = {
+				x: [ <%-x9 %> ],
+				y: [ <%-y9 %> ],
+				mode: 'markers',
+				type: 'scatter',
+				text: [ <%-t9 %> ],
+				marker: {
+					size: 10,
+					line: {
+						color: "white",
+						width: 0.5
+					}
+				},
+				name: 'blocked-caller'
+			};
+			var layout = {
+				title: 'call statistics',
+				yaxis: {
+					title: {
+						text: 'threat level'
+					}
+				}
+			}
+			var data = [data0, data7, data5, data9];
+			Plotly.newPlot('graph', data, layout);
+		</script>
+	</div>
+</body>
+
+</html>

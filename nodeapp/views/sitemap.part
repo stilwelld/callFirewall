@@ -1,0 +1,7 @@
+    <ul class="nav">
+	<li clase="nav-item"> <a class="nav-link" href='/'>Stats</a></li>
+	<li clase="nav-item"> <a class="nav-link" href='/callid'>Call Logs</a></li>
+	<li clase="nav-item"> <a class="nav-link" href='/callid/block'>Blocked Callers</a></li>
+	<li clase="nav-item"> <a class="nav-link" href='/callid/allow'>Contacts</a></li>
+    </ul>
+

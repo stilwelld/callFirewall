@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Call Firewall: Blocked Callers</title>
+  <%- include('head.part'); %>
+</head>
+
+<body>
+  <div class="container-lg">
+    <h2>Call Firewall: Blocked Callers</h2>
+    <%- include('sitemap.part'); %>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <tr>
+            <th>Number</th>
+            <th>Name</th>
+            <th></th>
+          </tr>
+
+          <% if(blockData.length!=0){ var i=1; blockData.forEach(function(data){ %>
+            <tr>
+              <td>
+                <%=data.nmbr %>
+              </td>
+              <td>
+                <%=data.name %>
+              </td>
+              <td><a href="/callid/block/delete/<%=data.ID%>" class="btn btn-danger btn-outline-dark  btn-xs"
+                  role="button">X</a></td>
+            </tr>
+            <% i++; }) %>
+              <% } else{ %>
+                <tr>
+                  <td colspan="4">No Data Found</td>
+                </tr>
+                <% } %>
+        </table>
+      </div>
+
+      <!-- Trigger the modal with a button -->
+      <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#myModal">Add
+        Entry</button>
+      <!-- Modal -->
+      <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+          <form name="addForm" role="form" action="/callid/block/insert" method="POST">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Add Blocked Number</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label>Number</label>
+                  <input type="text" class="form-control" name="nmbr" id="nmbr">
+                </div>
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" class="form-control" name="name" id="name">
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+        </div>
+      </div>
+  </div>
+</body>
+
+</html>
