@@ -1,0 +1,12 @@
+{
+    "mysql":{
+        "host":"localhost",
+        "user":"pi",
+        "passwd":"password",
+        "db":"callid"
+    },
+    "notify": [
+	"127.0.0.1:33000",
+    ],
+    "lookup": "https://reportedcalls.com/"
+}
