@@ -14,5 +14,3 @@ Daemon program that listens for call announcements. Announcements are played usi
 nodeapp
 
 A web gui to allow you to view and manage call data.
-
-
