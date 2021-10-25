@@ -88,7 +88,7 @@ def notify(MESSAGE):
         (UDP_IP, UDP_PORT) = entry.split(':')
         sock = socket.socket(socket.AF_INET,   # Internet
                              socket.SOCK_DGRAM)	       # UDP
-        sock.sendto(MESSAGE, (UDP_IP, int(UDP_PORT)))
+        sock.sendto(str.encode(MESSAGE), (UDP_IP, int(UDP_PORT)))
 
 
 def threat(caller):
@@ -200,12 +200,12 @@ def monitor(line_number, serial_port_path):
                     time.sleep(1)
                     ser.write(str.encode("\r\nATH0\r\n"))
                 elif (caller.threat == '7'):
-                    notify(b"warning robo caller")
+                    notify("warning robo caller")
                 elif (caller.threat == '5'):
-                    notify(b"unknown caller calling from "+caller.location )
+                    notify("unknown caller calling from "+caller.location )
                 else:
                     # send a message to the announce server
-                    notify(b"call from "+caller.name)
+                    notify("call from "+caller.name)
                 caller.clearBuffer()
 
         except Exception as e:
