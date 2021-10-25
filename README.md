@@ -62,7 +62,7 @@ Query OK, 0 rows affected (0.004 sec)
 
 MariaDB [callid]>
 
-mysql -p callid < dump.sql
+mysql -p callid < mysql_setup.sql
 Enter password:
 
 ### update the password stored in the cfg.json
