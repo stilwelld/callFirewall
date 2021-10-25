@@ -1,8 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import serial
 import time
-import MySQLdb
+import pymysql
 import json
 import time
 import logging
@@ -35,21 +35,21 @@ class Caller:
 
 def dbUpdate(sql_str):
     try:
-        db = MySQLdb.connect(host=cfg['mysql']['host'], user=cfg['mysql']
+        db = pymysql.connect(host=cfg['mysql']['host'], user=cfg['mysql']
                              ['user'], passwd=cfg['mysql']['passwd'], db=cfg['mysql']['db'])
         cursor = db.cursor()
         cursor.execute(sql_str)
         db.commit()
         db.close()
 
-    except MySQLdb.Error as e:
+    except pymysql.Error as e:
         try:
             logString = "MySQL Error [%d]: %s" % (e.args[0], e.args[1])
-            print logString
+            print(logString)
             app_log.info(logString)
         except IndexError:
             logString = "MySQL Error: %s" % str(e)
-            print logString
+            print(logString)
             app_log.info(logString)
 
     logString = '>> Data is stored into database!'
@@ -60,21 +60,21 @@ def dbUpdate(sql_str):
 def dbRead(sql_str):
     result = []
     try:
-        db = MySQLdb.connect(host=cfg['mysql']['host'], user=cfg['mysql']
+        db = pymysql.connect(host=cfg['mysql']['host'], user=cfg['mysql']
                              ['user'], passwd=cfg['mysql']['passwd'], db=cfg['mysql']['db'])
         cursor = db.cursor()
         cursor.execute(sql_str)
         result = cursor.fetchall()
         db.close()
 
-    except MySQLdb.Error as e:
+    except pymysql.Error as e:
         try:
             logString = "MySQL Error [%d]: %s" % (e.args[0], e.args[1])
-            print logString
+            print(logString)
             app_log.info(logString)
         except IndexError:
             logString = "MySQL Error: %s" % str(e)
-            print logString
+            print(logString)
             app_log.info(logString)
 
     logString = '>> Data is read from database!'
@@ -125,12 +125,12 @@ def threat(caller):
                 app_log.info(">> lookup match")
                 print(result)
                 app_log.info(result)
-		# add entry to block table
-		# Just add the nmbr to the table
+                # add entry to block table
+                # Just add the nmbr to the table
                 print(">> caller blocked")
                 app_log.info(">> caller blocked")
-		sql_str = "INSERT INTO block (nmbr,name) values ('%s','')" % (caller.nmbr)
-		dbUpdate(sql_str)
+                sql_str = "INSERT INTO block (nmbr,name) values ('%s','')" % (caller.nmbr)
+                dbUpdate(sql_str)
         loc_info = html.ul
         for li in loc_info.find_all("li"):
             #print(li.text)
@@ -154,9 +154,9 @@ def monitor(line_number, serial_port_path):
         app_log.info("Unable to open serial port")
     # initialize modem and set caller-id flag
     time.sleep(1)
-    ser.write("\r\nATZ\r\n")
+    ser.write(str.encode("\r\nATZ\r\n"))
     time.sleep(1)
-    ser.write("\r\nAT\x2bVCID\x3d1\r\n")
+    ser.write(str.encode("\r\nAT\x2bVCID\x3d1\r\n"))
     time.sleep(1)
 
     caller = Caller()
@@ -165,9 +165,9 @@ def monitor(line_number, serial_port_path):
         if ser.isOpen() == False:
             ser.open()
         try:
-            re = ser.readline()
+            re = ser.readline().decode()
             if re.rstrip() != '':
-                print re
+                print(re)
                 app_log.info(re)
 
             if re[:4] == 'DATE':
@@ -186,7 +186,7 @@ def monitor(line_number, serial_port_path):
                 logString = ">> "+caller.nmbr+" "+caller.name+" Date:" + \
                     caller.date+" Time:"+caller.time + " Threat:"+caller.threat+ \
                     " Country:"+caller.country +" Location:"+caller.location+" Company:"+caller.company
-                print logString
+                print(logString)
                 app_log.info(logString)
                 sql_str = "INSERT INTO call_log (phone_line, date,time,nmbr,name,threat_level) \
 					values ('%s','%s','%s','%s','%s','%s' )" % \
@@ -196,9 +196,9 @@ def monitor(line_number, serial_port_path):
                 if (caller.threat == '9'):
                     print(">> HANGUP")
                     app_log.info(">> HANGUP")
-                    ser.write("\r\nATH1\r\n")
+                    ser.write(str.encode("\r\nATH1\r\n"))
                     time.sleep(1)
-                    ser.write("\r\nATH0\r\n")
+                    ser.write(str.encode("\r\nATH0\r\n"))
                 elif (caller.threat == '7'):
                     notify(b"warning robo caller")
                 elif (caller.threat == '5'):
@@ -228,7 +228,7 @@ app_log .addHandler(handler)
 
 # Load the config file
 global cfg
-with open(".cfg.json") as json_data_file:
+with open("/home/pi/.cfg.json") as json_data_file:
     cfg = json.load(json_data_file)
 
 if (len(sys.argv) > 1):
@@ -241,7 +241,7 @@ line_number = 1
 # find the usb modem and call monitor
 for serialPort in sorted(listdir("/dev/serial/by-path/")):
     portPath = "/dev/serial/by-path/" + serialPort
-    print portPath
+    print(portPath)
     app_log.info(portPath)
     # Example:
     # /dev/serial/by-path/platform-3f980000.usb-usb-0:1.2:1.0
