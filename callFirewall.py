@@ -165,7 +165,7 @@ def monitor(line_number, serial_port_path):
         if ser.isOpen() == False:
             ser.open()
         try:
-            re = ser.readline().decode()
+            re = ser.readline().decode('ascii')
             if re.rstrip() != '':
                 print(re)
                 app_log.info(re)
