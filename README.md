@@ -29,6 +29,7 @@ $ sudo apt-get install python3-pymysql
 $ sudo apt-get install python3-requests
 $ sudo apt-get install python3-bs4
 $ sudo apt-get install mariadb-server
+$ sudo apt-get install mpg321
 
 $ sudo touch /var/log/cidmon.log
 $ sudo chown pi /var/log/cidmon.log
