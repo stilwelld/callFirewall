@@ -1,6 +1,14 @@
 # callFirewall
 Raspberry Pi application to monitor/block calls on a telephone line.
 
+## Parts list
+
+* Raspberry pi 3 or 4.
+* USB modem https://www.amazon.com/dp/B00XW5QYWS?psc=1&ref=ppx_yo2_dt_b_product_details
+* SD card, minimum 32gb
+* power supply, be sure to use at least a 2.5 amp given you have to power the modem
+* USB speaker or attached AMP
+
 ## Components
 
 * callFirewall.py
@@ -30,6 +38,8 @@ $ sudo apt-get install python3-requests
 $ sudo apt-get install python3-bs4
 $ sudo apt-get install mariadb-server
 $ sudo apt-get install mpg321
+$ pip3 install gtts
+$ sudo npm install pm2@latest -g
 
 $ sudo touch /var/log/cidmon.log
 $ sudo chown pi /var/log/cidmon.log
@@ -44,6 +54,7 @@ For a more secure installation, you should answer “Y” to all prompts when as
 These prompts will remove features that allows someone to gain access to the server easier.
 
 ## Setup the DB
+Where it says 'password' change this to whatever password you want to use.
 ```sh
 # mysql -u root -p
 Enter password:
@@ -72,10 +83,10 @@ MariaDB [callid]>
 
 Create the database tables:
 ```sh
-$ mysql -p callid < dump.sql
+$ mysql -p callid < mysql_setup.sql
 Enter password:
 ```
-### copy the config sample and update the MySQL password
+## copy the config sample and update the MySQL password
 ```sh
 $ cp cfg-sample.json ~/.cfg.json
 $ vi ~/.cfg.json
@@ -146,3 +157,38 @@ Contacts
 <img src="https://raw.githubusercontent.com/stilwelld/callFirewall/master/images/contacts.png"
   alt="contas page">
 </p>
+
+# Setup Automatic restart
+
+## Website
+We installed pm2 in the setup section, now we will configure it to restart the website
+
+```sh
+$ cd callFirewall/nodeapp
+$ pm2 start bin/www
+$ pm2 startup
+$ pm2 save
+```
+Some helpful pm2 commands
+* pm2 stop www
+* pm2 start www
+* pm2 log www
+
+## text to speach daemon
+
+```sh
+$ cd callFirewall
+$ sudo cp init/ttsd /etc/init.d/
+$ sudo update-rc.d ttsd defaults
+$ sudo /etc/init.d/ttsd start
+```
+
+## call firewall process
+
+```sh
+$ cd callFirewall
+$ sudo cp init/callFirewall /etc/init.d
+$ sudo update-rc.d callFirewall defaults
+$ sudo /etc/init.d/callFirewall start
+```
+
