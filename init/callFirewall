@@ -1,0 +1,29 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides: ttsd
+# Required-Start: $syslog
+# Required-Stop: $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: call firewall
+# Description:
+### END INIT INFO
+ 
+case "$1" in
+    start)
+        echo "call firewall is starting"
+        # Starting Programm
+        su pi -c '/home/pi/callFirewall/callFirewall.py &'
+        ;;
+    stop)
+        echo "ttsd is ending"
+        # Ending Programm
+        pkill -f 'python3 /home/pi/callFirewall/callFirewall.py'
+        ;;
+    *)
+        echo "Use: /etc/init.d/callFirewall {start|stop}"
+        exit 1
+        ;;
+esac
+ 
+exit 0
