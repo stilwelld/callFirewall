@@ -131,18 +131,18 @@ def threat(caller):
                 app_log.info(">> caller blocked")
                 sql_str = "INSERT INTO block (nmbr,name) values ('%s','')" % (caller.nmbr)
                 dbUpdate(sql_str)
-        loc_info = html.ul
-        for li in loc_info.find_all("li"):
-            #print(li.text)
-            #app_log.info(li.text)
-            if ("Country" in li.text):
-                caller.country = li.text.split(':')[1]
-            if ("Location" in li.text):
-                caller.location = li.text.split(':')[1]
-            if ("Rate" in li.text):
-                caller.center = li.text.split(':')[1]
-            if ("Company" in li.text):
-                caller.company = li.text.split(':')[1]
+            loc_info = html.ul
+            for li in loc_info.find_all("li"):
+                #print(li.text)
+                #app_log.info(li.text)
+                if ("Country" in li.text):
+                    caller.country = li.text.split(':')[1]
+                if ("Location" in li.text):
+                    caller.location = li.text.split(':')[1]
+                if ("Rate" in li.text):
+                    caller.center = li.text.split(':')[1]
+                if ("Company" in li.text):
+                    caller.company = li.text.split(':')[1]
     caller.threat = level
 
 def monitor(line_number, serial_port_path):
@@ -202,7 +202,10 @@ def monitor(line_number, serial_port_path):
                 elif (caller.threat == '7'):
                     notify("warning robo caller")
                 elif (caller.threat == '5'):
-                    notify("unknown caller calling from "+caller.location )
+                    if (caller.location):
+                        notify("unknown caller calling from "+caller.location )
+                    else:
+                        notify("unknown caller" )
                 else:
                     # send a message to the announce server
                     notify("call from "+caller.name)
