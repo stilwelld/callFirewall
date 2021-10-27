@@ -48,7 +48,7 @@ $ sudo apt-get install python3-requests
 $ sudo apt-get install python3-bs4
 $ sudo apt-get install mariadb-server
 $ sudo apt-get install mpg321
-$ pip3 install gtts
+$ sudo pip3 install gtts
 $ sudo npm install pm2@latest -g
 
 $ sudo touch /var/log/cidmon.log
