@@ -27,7 +27,17 @@ A nodejs web gui to allow you to view and manage call data.
 
 Boot your Raspberry Pi using the Raspberry Pi OS Lite image.
 Configure your network and enable SSH.
-
+Connect the USB modem to the Pi and to the phone line.
+Configure the serial interface
+```sh
+$ sudo raspi-config
+  Interface Options
+  Serial Port
+  Login Shell <NO>
+  Enable Serial Port <YES>
+  <OK>
+  <Finish>
+```
 Clone the software and install needed packages.
 ```sh
 $ git clone git@github.com:stilwelld/callFirewall.git
@@ -167,6 +177,7 @@ We installed pm2 in the setup section, now we will configure it to restart the w
 $ cd callFirewall/nodeapp
 $ pm2 start bin/www
 $ pm2 startup
+$ sudo env PATH=$PATH:/usr/bin /usr/local/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
 $ pm2 save
 ```
 Some helpful pm2 commands
