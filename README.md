@@ -39,6 +39,7 @@ $ sudo apt-get install python3-bs4
 $ sudo apt-get install mariadb-server
 $ sudo apt-get install mpg321
 $ pip3 install gtts
+$ sudo npm install pm2@latest -g
 
 $ sudo touch /var/log/cidmon.log
 $ sudo chown pi /var/log/cidmon.log
@@ -156,3 +157,34 @@ Contacts
 <img src="https://raw.githubusercontent.com/stilwelld/callFirewall/master/images/contacts.png"
   alt="contas page">
 </p>
+
+# Setup Automatic restart
+
+## Website
+We installed pm2 in the setup section, now we will configure it to restart the website
+
+```sh
+$ cd callFirewall/nodeapp
+$ pm2 start bin/www
+$ pm2 startup
+$ pm2 save
+```
+Some helpful pm2 commands
+* pm2 stop www
+* pm2 start www
+* pm2 log www
+
+## text to speach daemon
+
+```sh
+$ cd callFirewall
+$ sudo cp ttsd.conf /etc/init
+```
+
+## call firewall process
+
+```sh
+$ cd callFirewall
+$ sudo cp callFirewall.conf /etc/init
+```
+
