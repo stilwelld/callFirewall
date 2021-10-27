@@ -36,8 +36,8 @@ while True:
   
     # Saving the converted audio in a mp3 file named
     # announce 
-    myobj.save("announce.mp3")
+    myobj.save("/tmp/announce.mp3")
   
     # Playing the converted file
-    os.system("mpg321 -q -g 10 announce.mp3")
+    os.system("mpg321 -q -g 10 /tmp/announce.mp3")
     #
