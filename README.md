@@ -167,6 +167,7 @@ We installed pm2 in the setup section, now we will configure it to restart the w
 $ cd callFirewall/nodeapp
 $ pm2 start bin/www
 $ pm2 startup
+$ sudo env PATH=$PATH:/usr/bin /usr/local/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
 $ pm2 save
 ```
 Some helpful pm2 commands
