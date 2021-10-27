@@ -178,13 +178,17 @@ Some helpful pm2 commands
 
 ```sh
 $ cd callFirewall
-$ sudo cp ttsd.conf /etc/init
+$ sudo cp init/ttsd /etc/init.d/
+$ sudo update-rc.d ttsd defaults
+$ sudo /etc/init.d/ttsd start
 ```
 
 ## call firewall process
 
 ```sh
 $ cd callFirewall
-$ sudo cp callFirewall.conf /etc/init
+$ sudo cp init/callFirewall /etc/init.d
+$ sudo update-rc.d callFirewall defaults
+$ sudo /etc/init.d/callFirewall start
 ```
 
