@@ -27,7 +27,17 @@ A nodejs web gui to allow you to view and manage call data.
 
 Boot your Raspberry Pi using the Raspberry Pi OS Lite image.
 Configure your network and enable SSH.
-
+Connect the USB modem to the Pi and to the phone line.
+Configure the serial interface
+```sh
+$ sudo raspi-config
+  Interface Options
+  Serial Port
+  Login Shell <NO>
+  Enable Serial Port <YES>
+  <OK>
+  <Finish>
+```
 Clone the software and install needed packages.
 ```sh
 $ git clone git@github.com:stilwelld/callFirewall.git
