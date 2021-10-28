@@ -180,7 +180,7 @@ def monitor(line_number, serial_port_path):
                 caller.nmbr = re[7:].rstrip()
 
             if re[:4] == 'NAME':
-                caller.name = re[7:].rstrip()
+                caller.name = re[7:32].rstrip()
                 # set the threat level for this caller
                 threat(caller)
                 logString = ">> "+caller.nmbr+" "+caller.name+" Date:" + \
